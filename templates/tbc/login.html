@@ -1,0 +1,24 @@
+{% extends 'tbc/base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+<div class="container">
+	<div class="row" style="height:20px;"></div>
+	<div class="row">
+		<h1>Login to TBC Scotland</h1>
+		<div class="row" style="height:20px;"></div>
+		<form id="login_form" method="post" action="{% url 'login' %}" >
+  			{% csrf_token %}
+	        <div class="form-group">
+	          <label for="Username">Username</label>
+	          <input type="text" class="form-control inputLogin" name="username" value="" size="50" id="Username" placeholder="Enter username">
+	        </div>
+			<div class="form-group">
+				<label for="Password">Password</label>
+				<input type="password" name="password" value="" size="50" class="form-control inputLogin" id="Password" placeholder="Enter password">
+			</div>
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'tbc/base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+<div class="container">
+    <div class="row" style="height:20px;"></div>
+    <header>
+        <h1 style="font-size:50px">Projects</h1>
+    </header>
+    <div class="row" style="height:10px;"></div>
+    <div style="font-size:140%;">Discover what our users are working on right now</div>
+    <div class="row" style="height:40px;"></div>
+
+    <div class="row">
+        {% for project in projects %}
+            <div class="col-lg-3">
+            <div class="panel panel-default text-center">
+                <div class="panel-body">
+                    <img class="thumbnail_image" src="{{ project.image.url }}">
+                    <h3 class="thumbnail_header">{{ project.title }}</h3>
+                    <p class="keywords">{{ project.keywords }}</p>
+                    <p class="textinthumbnail">{{ project.description }}</p>
+                    <p><a href="{% url 'show_project' project.slug %}"><button type="button" class="btn btn-default">Visit Ad</button></a></p>
+                </div>
+            </div>
+            </div>
+        {% if forloop.counter|divisibleby:"4" and not forloop.last %}
+        <div class="row"></div>
+        {% endif %}
+        {% endfor %}
+    </div>
+  
+    <div>
+        {% if user.is_authenticated %}
+            <br>
+            <a href="{% url 'post_project' %}"><div class="keywords">Post your own ad here!</div></a>
+        {% endif %}
+    </div>
+
+    <div class ="row">
+        <div class="col-lg-3">
+            <div class="pagination">
+                <span class="step-links">
+                    {% if projects.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ projects.previous_page_number }}">previous</a>
+                    {% endif %}
+            
+                    <span class="current">Page {{ projects.number }} of {{ projects.paginator.num_pages }}.</span>
+                    
+                    {% if projects.has_next %}
+                        <a href="?page={{ projects.next_page_number }}">next</a>
+                        <a href="?page={{ projects.paginator.num_pages }}">last&raquo;</a>
+                    {% endif %}        
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'tbc/base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+<div class="container">
+
+    <div class="row" style="height:20px;"></div>
+  <h1 style="font-size:50px">Profiles</h1>
+</header>
+<div class="row" style="height:10px;"></div>
+<div style="font-size:140%;">Find the most talented creatives in Scotland</div>
+<div class="row" style="height:40px;"></div>
+
+{% if profiles %}
+<div class="row">
+    {% for profile in profiles %}
+    <div class="col-lg-3">
+        <div class="panel panel-default text-center">
+        <div class="panel-body">
+            <img class="thumbnail_image" src="{{ profile.image.url }}">
+            <h3 class="thumbnail_header">{{ profile.username }}</h3>
+            <p class="keywords">{{ profile.profession }}</p>
+            <p class="textinthumbnail">{{ profile.aboutme }}</p>
+            <p><a href="{% url 'show_profile' profile.slug %}"><button type="button" class="btn btn-default">Visit Profile</button></a></p>
+        </div>
+        </div>
+    </div>
+    {% if forloop.counter|divisibleby:"4" and not forloop.last %}
+    <div class="row"></div>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endif %}
+
+
+<div class ="row">
+    <div class="col-lg-3">
+        <div class="pagination">
+            <span class="step-links">
+                {% if profiles.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ profiles.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">Page {{ profiles.number }} of {{ profiles.paginator.num_pages }}.</span>
+                
+                {% if profiles.has_next %}
+                <a href="?page={{ profiles.next_page_number }}">next</a>
+                <a href="?page={{ profiles.paginator.num_pages }}">last&raquo;</a>
+                {% endif %}        
+            </span>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
